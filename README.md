@@ -135,16 +135,13 @@ Current List of Available Coins for Address Generation
 | --------------------------------------- | -------------------------------------------- | ------------ |
 |42 | 42coin | 4  |
 |AC | Asiacoin | A  |
-|ACM | Actinium | N |
 |AIB | Advanced Internet Block by IOBOND | A  |
 |ANC | Anoncoin | A  |
 |ARS | Arkstone | A  |
 |ATMOS | Atmos | N  |
 |AUR | Auroracoin | A  |
-|AXE | Axe | P |
-|BLAST | BLAST | B  |
+|AXE | Axe | X |
 |BLK | Blackcoin | B  |
-|BWK | Bulwark | b  |
 |BQC | BBQcoin | b  |
 |BTC | Bitcoin | 1  |
 |TEST | Bitcoin Testnet | m or n  |
@@ -179,7 +176,6 @@ Current List of Available Coins for Address Generation
 |GRC | GridcoinResearch | R or S  |
 |GRLC | Garlicoin | G  |
 |GRS | Groestlcoin | F  |
-|GRV | Gravium | G  |
 |GUN | Guncoin | G or H  |
 |HAM | HamRadiocoin | 1  |
 |HBN | HoboNickels(and BottleCaps) | E or F  |
@@ -187,13 +183,10 @@ Current List of Available Coins for Address Generation
 |IXC | Ixcoin | x  |
 |JBS | Jumbucks | J  |
 |JIN | Jincoin | J  |
-|KMD | Komodo (and assetchains) | R  |
-|KORE | Kore | K  |
 |LBRY | LBRY | b  |
 |LEAF | Leafcoin | f  |
 |LTC | Litecoin | L  |
 |MMC | Memorycoin | M  |
-|MOG | Mogwai | M  |
 |MONA | Monacoin | M  |
 |MUE | Monetary Unit | 7  |
 |MYRIAD | Myriadcoin | M  |
@@ -220,7 +213,6 @@ Current List of Available Coins for Address Generation
 |RDD | Reddcoin | R  |
 |RIC | Riecoin | R  |
 |ROI | ROIcoin | R  |
-|RVN | Ravencoin | R |
 |SCA | Scamcoin | S  |
 |SDC | Shadowcoin | S  |
 |SKC | Skeincoin | S  |
@@ -228,11 +220,9 @@ Current List of Available Coins for Address Generation
 |START | Startcoin | s  |
 |SXC | Sexcoin | R or S  |
 |TPC | Templecoin | T  |
-|TUX | Tuxcoin | T  |
 |UIS | Unitus | U  |
 |UNO | Unobtanium | u  |
 |VIA | Viacoin | V  |
-|VIPS | VIPSTARCOIN | V  |
 |VPN | Vpncoin | V  |
 |VTC | Vertcoin | V  |
 |WDC | Worldcoin Global | W  |
@@ -241,7 +231,6 @@ Current List of Available Coins for Address Generation
 |XC | XCurrency | X  |
 |XPM | Primecoin | A  |
 |YAC | Yacoin | Y  |
-|YTN | Yenten | Y  |
 |ZNY | BitZeny | Z  |
 |ZOOM | Zoom coin | i  |
 |ZRC | Ziftrcoin | Z  |

@@ -89,16 +89,13 @@ main(int argc, char **argv)
 					"---------------\n"
 					"42 : 42coin : 4\n"
 					"AC : Asiacoin : A\n"
-					"ACM : Actinium : N\n"
 					"AIB : Advanced Internet Block by IOBOND : A\n"
 					"ANC : Anoncoin : A\n"
 					"ARS : Arkstone : A\n"
 					"ATMOS : Atmos : N\n"
 					"AUR : Auroracoin : A\n"
-					"AXE : Axe : P\n"
-					"BLAST : BLAST : B\n"
+					"AXE : Axe : X\n"
 					"BLK : Blackcoin : B\n"
-					"BWK : Bulwark : b\n"
 					"BQC : BBQcoin : b\n"
 					"BTC : Bitcoin : 1\n"
 					"TEST : Bitcoin Testnet : m or n\n"
@@ -106,8 +103,6 @@ main(int argc, char **argv)
 					"CCC : Chococoin : 7\n"
 					"CCN : Cannacoin : C\n"
 					"CDN : Canadaecoin : C\n"
-					"CIV : Civitas : C\n"
-					"tCIV : Civitas Testnet : y\n"
 					"CLAM : Clamcoin : x\n"
 					"CNC : Chinacoin : C\n"
 					"CNOTE : C-Note : C\n"
@@ -135,7 +130,6 @@ main(int argc, char **argv)
 					"GRC : GridcoinResearch : R or S\n"
 					"GRLC : Garlicoin : G\n"
 					"GRS : Groestlcoin : F\n"
-					"GRV : Gravium : G\n"
 					"GUN : Guncoin : G or H\n"
 					"HAM : HamRadiocoin : 1\n"
 					"HBN : HoboNickels(BottleCaps) : E or F\n"
@@ -143,13 +137,10 @@ main(int argc, char **argv)
 					"IXC : Ixcoin : x\n"
 					"JBS : Jumbucks : J\n"
 					"JIN : Jincoin : J\n"
-					"KMD : Komodo (and assetchains) : R\n"
-					"KORE : Kore : K\n"
 					"LBRY : LBRY : b\n"
 					"LEAF : Leafcoin : f\n"
 					"LTC : Litecoin : L\n"
 					"MMC : Memorycoin : M\n"
-					"MOG : Mogwai : M\n"
 					"MONA : Monacoin : M\n"
 					"MUE : Monetary Unit : 7\n"
 					"MYRIAD : Myriadcoin : M\n"
@@ -176,7 +167,6 @@ main(int argc, char **argv)
 					"RDD : Reddcoin : R\n"
 					"RIC : Riecoin : R\n"
 					"ROI : ROIcoin : R\n"
-					"RVN : Ravencoin : R\n"
 					"SCA : Scamcoin : S\n"
 					"SDC : Shadowcoin : S\n"
 					"SKC : Skeincoin : S\n"
@@ -184,11 +174,9 @@ main(int argc, char **argv)
 					"START : Startcoin : s\n"
 					"SXC : Sexcoin : R or S\n"
 					"TPC : Templecoin : T\n"
-					"TUX : Tuxcoin : T\n"
 					"UIS : Unitus : U\n"
 					"UNO : Unobtanium : u\n"
 					"VIA : Viacoin : V\n"
-					"VIPS : VIPSTARCOIN : V\n"
 					"VPN : Vpncoin : V\n"
 					"VTC : Vertcoin : V\n"
 					"WDC : Worldcoin Global : W\n"
@@ -197,7 +185,6 @@ main(int argc, char **argv)
 					"XC : XCurrency : X\n"
 					"XPM : Primecoin : A\n"
 					"YAC : Yacoin : Y\n"
-					"YTN : Yenten : Y\n"
 					"ZNY : BitZeny : Z\n"
 					"ZOOM : Zoom coin : i\n"
 					"ZRC : Ziftrcoin : Z\n"
@@ -205,27 +192,11 @@ main(int argc, char **argv)
 					return 1;
 			}
 			else
-			if (strcmp(optarg, "ACM")== 0) {
-				fprintf(stderr,
-					"Generating Actinium Address\n");
-					addrtype_opt = 53;
-					privtype_opt = 181;
-					break;
-			}
-			else
 			if (strcmp(optarg, "PIVX")== 0) {
 				fprintf(stderr,
 					"Generating PIVX Address\n");
-					addrtype_opt = 30;
-					privtype_opt = 212;
-					break;
-			}
-			else
-			if (strcmp(optarg, "KMD")== 0) {
-				fprintf(stderr,
-					"Generating KMD Address\n");
-					addrtype_opt = 60;
-					privtype_opt = 188;
+					addrtype = 30;
+					privtype = 212;
 					break;
 			}
 			else
@@ -886,14 +857,6 @@ main(int argc, char **argv)
 					break;
 			}
 			else
-			if (strcmp(optarg, "BLAST")== 0) {
-				fprintf(stderr,
-					"Decrypting BLAST Address\n");
-					addrtype_opt = 25;
-					privtype_opt = 239;
-					break;
-			}
-			else
 			if (strcmp(optarg, "BLK")== 0) {
 				fprintf(stderr,
 					"Decrypting BLK Address\n");
@@ -922,14 +885,6 @@ main(int argc, char **argv)
 				fprintf(stderr,
 					"Decrypting DASH Address\n");
 					addrtype_opt = 76;
-					privtype_opt = 204;
-					break;
-			}
-			else
-			if (strcmp(optarg, "MOG")== 0) {
-				fprintf(stderr,
-					"Decrypting Mogwai Address\n");
-					addrtype_opt = 50;
 					privtype_opt = 204;
 					break;
 			}
@@ -979,14 +934,6 @@ main(int argc, char **argv)
 					"Decrypting GRLC Address\n");
 					addrtype_opt = 38;
 					privtype_opt = 176;
-					break;
-			}
-			else
-			if (strcmp(optarg, "BWK")== 0) {
-				fprintf(stderr,
-					"Decrypting BWK Address\n");
-					addrtype_opt = 85;
-					privtype_opt = 212;
 					break;
 			}
 			else
@@ -1052,70 +999,6 @@ main(int argc, char **argv)
 					addrtype_opt = 53;
 					privtype_opt = 181;
 					break;
-			}
-			else
-			if (strcmp(optarg, "YTN")== 0) {
-				fprintf(stderr,
-					"Decrypting Yenten Address\n");
-					addrtype_opt = 78;
-					privtype_opt = 123;
-					break;
-			}
-			else
-			if (strcmp(optarg, "RVN")== 0) {
-				fprintf(stderr,
-					"Decrypting Ravencoin Address\n");
-					addrtype_opt = 60;
-					privtype_opt = 128;
-					break;
-			}
-			else
-			if (strcmp(optarg, "VIPS")== 0) {
-				fprintf(stderr,
-					"Decrypting VIPSTARCOIN Address\n");
-					addrtype_opt = 70;
-					privtype_opt = 128;
-					break;
-			}
-			else
-			if (strcmp(optarg, "CIV")== 0) {
-				fprintf(stderr,
-					"Decrypting Civitas Address\n");
-					addrtype_opt = 28;
-					privtype_opt = 212;
-					break;
-			}
-			else
-			if (strcmp(optarg, "tCIV")== 0) {
-				fprintf(stderr,
-					"Decrypting Civitas Testnet Address\n");
-					addrtype_opt = 139;
-					privtype_opt = 239;
-					break;
-			}
-			else
-			if (strcmp(optarg, "GRV")== 0) {
-				fprintf(stderr,
-					"Decrypting Gravium Address\n");
-					addrtype_opt = 38;
-					privtype_opt = 166;
-					break;
-			}
-			else
-			if (strcmp(optarg, "TUX")== 0) {
-				fprintf(stderr,
-					"Decrypting TUX Address\n");
-					addrtype_opt = 65;
-					privtype_opt = 193;
-					break;
-                        }
-                        else
-			if (strcmp(optarg, "KORE")== 0) {
-				fprintf(stderr,
-					"Decrypting Kore Address\n");
-					addrtype_opt = 45;
-					privtype_opt = 128;
-					break;		
 			}
 			break;
 
@@ -1232,7 +1115,7 @@ main(int argc, char **argv)
 
 	if (key2_in) {
 		BN_CTX *bnctx;
-		BIGNUM *bntmp, *bntmp2;
+		BIGNUM bntmp, bntmp2;
 		EC_KEY *pkey2;
 
 		pkey2 = EC_KEY_new_by_curve_name(NID_secp256k1);
@@ -1254,19 +1137,19 @@ main(int argc, char **argv)
 			compressed = 1;
 		}
 
-		bntmp = BN_new();
-		bntmp2 = BN_new();
+		BN_init(&bntmp);
+		BN_init(&bntmp2);
 		bnctx = BN_CTX_new();
-		EC_GROUP_get_order(EC_KEY_get0_group(pkey), bntmp2, NULL);
-		BN_mod_add(bntmp,
+		EC_GROUP_get_order(EC_KEY_get0_group(pkey), &bntmp2, NULL);
+		BN_mod_add(&bntmp,
 			   EC_KEY_get0_private_key(pkey),
 			   EC_KEY_get0_private_key(pkey2),
-			   bntmp2,
+			   &bntmp2,
 			   bnctx);
-		vg_set_privkey(bntmp, pkey);
+		vg_set_privkey(&bntmp, pkey);
 		EC_KEY_free(pkey2);
-		BN_clear_free(bntmp);
-		BN_clear_free(bntmp2);
+		BN_clear_free(&bntmp);
+		BN_clear_free(&bntmp2);
 		BN_CTX_free(bnctx);
 	}
 

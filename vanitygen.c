@@ -94,8 +94,8 @@ vg_thread_loop(void *arg)
 		exit(1);
 	}
 
-	BN_set_word(vxcp->vxc_bntmp, ptarraysize);
-	EC_POINT_mul(pgroup, pbatchinc, vxcp->vxc_bntmp, NULL, NULL,
+	BN_set_word(&vxcp->vxc_bntmp, ptarraysize);
+	EC_POINT_mul(pgroup, pbatchinc, &vxcp->vxc_bntmp, NULL, NULL,
 		     vxcp->vxc_bnctx);
 	EC_POINT_make_affine(pgroup, pbatchinc, vxcp->vxc_bnctx);
 
@@ -127,33 +127,16 @@ vg_thread_loop(void *arg)
 			vg_exec_context_upgrade_lock(vxcp);
 			/* Generate a new random private key */
 			EC_KEY_generate_key(pkey);
-			if (vcp->vc_privkey_prefix_length > 0) {
-				BIGNUM *pkbn = BN_dup(EC_KEY_get0_private_key(pkey));
-        unsigned char pkey_arr[32];
-        assert(BN_bn2bin(pkbn, pkey_arr) < 33);
-        memcpy((char *) pkey_arr, vcp->vc_privkey_prefix, vcp->vc_privkey_prefix_length);
-				for (int i = 0; i < vcp->vc_privkey_prefix_length / 2; i++) {
-					int k = pkey_arr[i];
-					pkey_arr[i] = pkey_arr[vcp->vc_privkey_prefix_length - 1 - i];
-					pkey_arr[vcp->vc_privkey_prefix_length - 1 - i] = k;
-				}
-        BN_bin2bn(pkey_arr, 32, pkbn);
-				EC_KEY_set_private_key(pkey, pkbn);
-
-				EC_POINT *origin = EC_POINT_new(pgroup);
-				EC_POINT_mul(pgroup, origin, pkbn, NULL, NULL, vxcp->vxc_bnctx);
-				EC_KEY_set_public_key(pkey, origin);
-			}
 			npoints = 0;
 
 			/* Determine rekey interval */
-			EC_GROUP_get_order(pgroup, vxcp->vxc_bntmp,
+			EC_GROUP_get_order(pgroup, &vxcp->vxc_bntmp,
 					   vxcp->vxc_bnctx);
-			BN_sub(vxcp->vxc_bntmp2,
-			       vxcp->vxc_bntmp,
+			BN_sub(&vxcp->vxc_bntmp2,
+			       &vxcp->vxc_bntmp,
 			       EC_KEY_get0_private_key(pkey));
-			rekey_at = BN_get_word(vxcp->vxc_bntmp2);
-			if ((rekey_at == 0xffffffffL) || (rekey_at > rekey_max))
+			rekey_at = BN_get_word(&vxcp->vxc_bntmp2);
+			if ((rekey_at == BN_MASK2) || (rekey_at > rekey_max))
 				rekey_at = rekey_max;
 			assert(rekey_at > 0);
 
@@ -337,7 +320,6 @@ usage(const char *name)
 "-i            Case-insensitive prefix search\n"
 "-k            Keep pattern and continue search after finding a match\n"
 "-1            Stop after first match\n"
-"-a <amount>   Stop after generating <amount> addresses/keys\n"
 "-C <altcoin>  Generate an address for specific altcoin, use \"-C LIST\" to view\n"
 "              a list of all available altcoins, argument is case sensitive!\n"
 "-X <version>  Generate address with the given version\n"
@@ -350,10 +332,7 @@ usage(const char *name)
 "-f <file>     File containing list of patterns, one per line\n"
 "              (Use \"-\" as the file name for stdin)\n"
 "-o <file>     Write pattern matches to <file>\n"
-"-s <file>     Seed random number generator from <file>\n"
-"-Z <prefix>   Private key prefix in hex (vipco.in)\n"
-"-z            Format output of matches in CSV(disables verbose mode)\n"
-"              Output as [COIN],[PREFIX],[ADDRESS],[PRIVKEY]\n",
+"-s <file>     Seed random number generator from <file>\n",
 version, name);
 }
 
@@ -373,8 +352,6 @@ main(int argc, char **argv)
 	int simulate = 0;
 	int remove_on_match = 1;
 	int only_one = 0;
-	int numpairs = 0;
-	int csv = 0;
 	int prompt_password = 0;
 	int opt;
 	char *seedfile = NULL;
@@ -386,8 +363,6 @@ main(int argc, char **argv)
 	int nthreads = 0;
 	vg_context_t *vcp = NULL;
 	EC_POINT *pubkey_base = NULL;
-	char privkey_prefix[32];
-	int privkey_prefix_length = 0;
 
 	FILE *pattfp[MAX_FILE], *fp;
 	int pattfpi[MAX_FILE];
@@ -397,7 +372,7 @@ main(int argc, char **argv)
 
 	int i;
 
-	while ((opt = getopt(argc, argv, "vqnrik1ezE:P:C:X:Y:F:t:h?f:o:s:Z:a:")) != -1) {
+	while ((opt = getopt(argc, argv, "vqnrik1eE:P:C:X:Y:F:t:h?f:o:s:")) != -1) {
 		switch (opt) {
 		case 'c':
 		        compressed = 1;
@@ -420,15 +395,8 @@ main(int argc, char **argv)
 		case 'k':
 			remove_on_match = 0;
 			break;
-		case 'a':
-			remove_on_match = 0;
-			numpairs = atoi(optarg);
-			break;
 		case '1':
 			only_one = 1;
-			break;
-		case 'z':
-			csv = 1;
 			break;
 
 /*BEGIN ALTCOIN GENERATOR*/
@@ -445,26 +413,23 @@ main(int argc, char **argv)
 					"Argument(UPPERCASE) : Coin : Address Prefix\n"
 					"---------------\n"
 					"42 : 42coin : 4\n"
+					"ACOIN : Acoin : A\n"
 					"AC : Asiacoin : A\n"
-					"ACM : Actinium : N\n"
 					"AIB : Advanced Internet Block by IOBOND : A\n"
 					"ANC : Anoncoin : A\n"
 					"ARS : Arkstone : A\n"
 					"ATMOS : Atmos : N\n"
 					"AUR : Auroracoin : A\n"
-					"AXE : Axe : P\n"
-					"BLAST : BLAST : B\n"
+					"AXE : Axe : X\n"
 					"BLK : Blackcoin : B\n"
-					"BWK : Bulwark : b\n"
 					"BQC : BBQcoin : b\n"
 					"BTC : Bitcoin : 1\n"
 					"TEST : Bitcoin Testnet : m or n\n"
 					"BTCD : Bitcoin Dark : R\n"
+					"CANN : Cannabis Coin : C\n"
 					"CCC : Chococoin : 7\n"
 					"CCN : Cannacoin : C\n"
 					"CDN : Canadaecoin : C\n"
-					"CIV : Civitas : C\n"
-					"tCIV : Civitas Testnet : y\n"
 					"CLAM : Clamcoin : x\n"
 					"CNC : Chinacoin : C\n"
 					"CNOTE : C-Note : C\n"
@@ -486,27 +451,30 @@ main(int argc, char **argv)
 					"FAIR : Faircoin2 : f\n"
 					"FLOZ : FLOZ : F\n"
 					"FTC : Feathercoin : 6 or 7\n"
+					"FFC : Fire Fly Coin : F\n"
 					"GAME : GameCredits : G\n"
 					"GAP : Gapcoin : G\n"
 					"GCR : Global Currency Reserve : G\n"
 					"GRC : GridcoinResearch : R or S\n"
 					"GRLC : Garlicoin : G\n"
 					"GRS : Groestlcoin : F\n"
-					"GRV : Gravium : G\n"
+					"GCC : Guccione Coin : G\n"
 					"GUN : Guncoin : G or H\n"
 					"HAM : HamRadiocoin : 1\n"
 					"HBN : HoboNickels(BottleCaps) : E or F\n"
 					"HODL : HOdlcoin : H\n"
+					"HDLC : Heldcoin : H\n"
+					"IRL : Irishcoin : E\n"
 					"IXC : Ixcoin : x\n"
 					"JBS : Jumbucks : J\n"
 					"JIN : Jincoin : J\n"
-					"KMD : Komodo (and assetchains) : R\n"
-					"KORE : Kore : K\n"
+					"XJO : JouleCoin : J\n"
 					"LBRY : LBRY : b\n"
+					"LEA : LeaCoin : L\n"
 					"LEAF : Leafcoin : f\n"
 					"LTC : Litecoin : L\n"
+					"MBYT: Madbyte : M\n"
 					"MMC : Memorycoin : M\n"
-					"MOG : Mogwai : M\n"
 					"MONA : Monacoin : M\n"
 					"MUE : Monetary Unit : 7\n"
 					"MYRIAD : Myriadcoin : M\n"
@@ -519,9 +487,12 @@ main(int argc, char **argv)
 					"NYAN : Nyancoin : K\n"
 					"OK : OK Cash : P\n"
 					"OMC : Omnicoin : o\n"
+					"PARTY : Partycoin : P\n"
+					"PENG : Penguin : p\n"
 					"PIGGY : Piggycoin : p\n"
 					"PINK : Pinkcoin : 2\n"
 					"PIVX : PIVX : D\n"
+					"DUO : Parallel Coin : a\n"
 					"PKB : Parkbyte : P\n"
 					"PND : Pandacoin : P\n"
 					"POT : Potcoin : P\n"
@@ -533,19 +504,21 @@ main(int argc, char **argv)
 					"RDD : Reddcoin : R\n"
 					"RIC : Riecoin : R\n"
 					"ROI : ROIcoin: R\n"
-					"RVN : Ravencoin : R\n"
 					"SCA : Scamcoin : S\n"
 					"SDC : Shadowcoin : S\n"
 					"SKC : Skeincoin : S\n"
+					"SOON : Sooncoin : S\n"
 					"SPR : Spreadcoin : S\n"
 					"START : Startcoin : s\n"
 					"SXC : Sexcoin : R or S\n"
+					"TIT : Titcoin : 1\n"
 					"TPC : Templecoin : T\n"
-					"TUX : Tuxcoin : T\n"
+					"UDOWN : UDOWN coin : U\n"
 					"UIS : Unitus : U\n"
+					"UNIC : Unicoin : U\n"
+					"UNIT : Universal Currency : P\n"
 					"UNO : Unobtanium : u\n"
 					"VIA : Viacoin : V\n"
-					"VIPS : VIPSTARCOIN : V\n"
 					"VPN : Vpncoin : V\n"
 					"VTC : Vertcoin : V\n"
 					"WDC : Worldcoin Global : W\n"
@@ -554,7 +527,6 @@ main(int argc, char **argv)
 					"XC : XCurrency : X\n"
 					"XPM : Primecoin : A\n"
 					"YAC : Yacoin : Y\n"
-					"YTN : Yenten : Y\n"
 					"ZNY : BitZeny : Z\n"
 					"ZOOM : Zoom coin : i\n"
 					"ZRC : Ziftrcoin : Z\n"
@@ -562,27 +534,11 @@ main(int argc, char **argv)
 					return 1;
 			}
 			else
-			if (strcmp(optarg, "ACM")== 0) {
-				fprintf(stderr,
-					"Generating Actinium Address\n");
-					addrtype = 53;
-					privtype = 181;
-					break;
-			}
-			else
 			if (strcmp(optarg, "PIVX")== 0) {
 				fprintf(stderr,
 					"Generating PIVX Address\n");
 					addrtype = 30;
 					privtype = 212;
-					break;
-			}
-			else
-			if (strcmp(optarg, "KMD")== 0) {
-				fprintf(stderr,
-					"Generating KMD Address\n");
-					addrtype = 60;
-					privtype = 188;
 					break;
 			}
 			else
@@ -708,10 +664,10 @@ main(int argc, char **argv)
 			else
 			if (strcmp(optarg, "EMC")== 0) {
 				fprintf(stderr,
-						"Generating Emercoin Address\n");
-				addrtype = 33;
-				privtype = 128;
-				break;
+					"Generating Emercoin Address\n");
+  					addrtype = 33;
+  					privtype = 128;
+					break;
 			}
 			else
 			if (strcmp(optarg, "EXCL")== 0) {
@@ -867,6 +823,14 @@ main(int argc, char **argv)
 					break;
 			}
 			else
+			 if (strcmp(optarg, "UNIC")== 0) {
+                                fprintf(stderr,
+                                        "Generating UNIC Address\n");
+                                        addrtype = 68;
+                                        privtype = 224; //script type is 30.
+                                        break;
+                        }
+                        else
 			if (strcmp(optarg, "MYRIAD")== 0) {
 				fprintf(stderr,
 					"Generating MYRIAD Address\n");
@@ -1245,14 +1209,6 @@ main(int argc, char **argv)
 					break;
 			}
 			else
-			if (strcmp(optarg, "BLAST")== 0) {
-				fprintf(stderr,
-					"Generating BLAST Address\n");
-					addrtype = 25;
-					privtype = 239;
-					break;
-			}
-			else
 			if (strcmp(optarg, "BLK")== 0) {
 				fprintf(stderr,
 					"Generating BLK Address\n");
@@ -1281,14 +1237,6 @@ main(int argc, char **argv)
 				fprintf(stderr,
 					"Generating DASH Address\n");
 					addrtype = 76;
-					privtype = 204;
-					break;
-			}
-			else
-			if (strcmp(optarg, "MOG")== 0) {
-				fprintf(stderr,
-					"Generating Mogwai Address\n");
-					addrtype = 50;
 					privtype = 204;
 					break;
 			}
@@ -1338,14 +1286,6 @@ main(int argc, char **argv)
 					"Generating GRLC Address\n");
 					addrtype = 38;
 					privtype = 176;
-					break;
-			}
-			else
-			if (strcmp(optarg, "BWK")== 0) {
-				fprintf(stderr,
-					"Generating BWK Address\n");
-					addrtype = 85;
-					privtype = 212;
 					break;
 			}
 			else
@@ -1412,70 +1352,135 @@ main(int argc, char **argv)
 					privtype = 181;
 					break;
 			}
-			else
-			if (strcmp(optarg, "YTN")== 0) {
-				fprintf(stderr,
-					"Generating Yenten Address\n");
-					addrtype = 78;
-					privtype = 123;
-					break;
-			}
-			else
-			if (strcmp(optarg, "RVN")== 0) {
-				fprintf(stderr,
-					"Generating Ravencoin Address\n");
-					addrtype = 60;
-					privtype = 128;
-					break;
-			}
-			else
-			if (strcmp(optarg, "VIPS")== 0) {
-				fprintf(stderr,
-					"Generating VIPSTARCOIN Address\n");
-					addrtype = 70;
-					privtype = 128;
-					break;
-			}
-			else
-			if (strcmp(optarg, "CIV")== 0) {
-				fprintf(stderr,
-					"Generating Civitas Address\n");
-					addrtype = 28;
-					privtype = 212;
-					break;
-			}
-			else
-			if (strcmp(optarg, "tCIV")== 0) {
-				fprintf(stderr,
-					"Generating Civitas Testnet Address\n");
-					addrtype = 139;
-					privtype = 239;
-					break;
-			}
-			else
-			if (strcmp(optarg, "GRV")== 0) {
-				fprintf(stderr,
-					"Generating Gravium Address\n");
-					addrtype = 38;
-					privtype = 166;
-					break;
-			}
-			else
-			if (strcmp(optarg, "TUX")== 0) {
-				fprintf(stderr,
-					"Generating TUX Address\n");
-					addrtype = 65;
-					privtype = 193;
-					break;
+		        else
+                        if (strcmp(optarg, "XJO")== 0) {
+                                fprintf(stderr,
+                                        "Generating JouleCoin Address\n");
+                                        addrtype = 43;
+                                        privtype = 143;
+                                        break;
                         }
                         else
-			if (strcmp(optarg, "KORE")== 0) {
-				fprintf(stderr,
-					"Generating Kore Address\n");
-					addrtype = 45;
-					privtype = 128;
-					break;		
-			}
+                        if (strcmp(optarg, "UNIT")== 0) {
+                                fprintf(stderr,
+                                        "Generating Universal Currency Address\n");
+                                        addrtype = 55;
+                                        privtype = 183;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "DUO")== 0) {
+                                fprintf(stderr,
+                                        "Generating Parallel Coin Address\n");
+                                        addrtype = 83;
+                                        privtype = 178;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "TIT")== 0) {
+                                fprintf(stderr,
+                                        "Generating Titcoin Address\n");
+                                        addrtype = 0;
+                                        privtype = 128;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "LEA")== 0) {
+                                fprintf(stderr,
+                                        "Generating LeaCoin Address\n");
+                                        addrtype = 48;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "FFC")== 0) {
+                                fprintf(stderr,
+                                        "Generating Fire Fly Coin Address\n");
+                                        addrtype = 36;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "UDOWN")== 0) {
+                                fprintf(stderr,
+                                        "Generating UDOWN Coin Address\n");
+                                        addrtype = 68;
+                                        privtype = 196;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "SOON")== 0) {
+                                fprintf(stderr,
+                                        "Generating Soon Coin Address\n");
+                                        addrtype = 63;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "ACOIN")== 0) {
+                                fprintf(stderr,
+                                        "Generating Acoin Address\n");
+                                        addrtype = 23;
+                                        privtype = 230;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "PARTY")== 0) {
+                                fprintf(stderr,
+                                        "Generating PartyCoin Address\n");
+                                        addrtype = 55;
+                                        privtype = 183;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "PENG")== 0) {
+                                fprintf(stderr,
+                                        "Generating Penguin Coin Address\n");
+                                        addrtype = 117;
+                                        privtype = 245;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "IRL")== 0) {
+                                fprintf(stderr,
+                                        "Generating Irish Coin Address\n");
+                                        addrtype = 33;
+                                        privtype = 161;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "HDLC")== 0) {
+                                fprintf(stderr,
+                                        "Generating Held Coin Address\n");
+                                        addrtype = 40;
+                                        privtype = 153;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "GCC")== 0) {
+                                fprintf(stderr,
+                                        "Generating Guccione Coin Address\n");
+                                        addrtype = 38;
+                                        privtype = 166;
+                                        break;
+                        }
+			else
+                        if (strcmp(optarg, "MBYT")== 0) {
+                                fprintf(stderr,
+                                        "Generating Madbyte Coin Address\n");
+                                        addrtype = 50;
+                                        privtype = 110;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "CANN")== 0) {
+                                fprintf(stderr,
+                                        "Generating Cannabis Coin Address\n");
+                                        addrtype = 28;
+                                        privtype = 156;
+                                        break;
+                        }
+
 			break;
 
 /*END ALTCOIN GENERATOR*/
@@ -1577,15 +1582,6 @@ main(int argc, char **argv)
 			}
 			seedfile = optarg;
 			break;
-		case 'Z':
-			assert(strlen(optarg) % 2 == 0);
-			privkey_prefix_length = strlen(optarg)/2;
-			for (size_t i = 0; i < privkey_prefix_length; i++) {
-				int value; // Can't sscanf directly to char array because of overlapping on Win32
-				sscanf(&optarg[i*2], "%2x", &value);
-				privkey_prefix[privkey_prefix_length - 1 - i] = value;
-			}
-			break;
 		default:
 			usage(argv[0]);
 			return 1;
@@ -1650,14 +1646,10 @@ main(int argc, char **argv)
 	vcp->vc_verbose = verbose;
 	vcp->vc_result_file = result_file;
 	vcp->vc_remove_on_match = remove_on_match;
-	vcp->vc_numpairs = numpairs;
-	vcp->vc_csv = csv;
 	vcp->vc_only_one = only_one;
 	vcp->vc_format = format;
 	vcp->vc_pubkeytype = pubkeytype;
 	vcp->vc_pubkey_base = pubkey_base;
-	memcpy(vcp->vc_privkey_prefix, privkey_prefix, privkey_prefix_length);
-	vcp->vc_privkey_prefix_length = privkey_prefix_length;
 
 	vcp->vc_output_match = vg_output_match_console;
 	vcp->vc_output_timing = vg_output_timing_console;
