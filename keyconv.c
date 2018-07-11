@@ -88,6 +88,7 @@ main(int argc, char **argv)
 					"Argument(UPPERCASE) : Coin : Address Prefix\n"
 					"---------------\n"
 					"42 : 42coin : 4\n"
+					"ACOIN : Acoin : A\n"
 					"AC : Asiacoin : A\n"
 					"AIB : Advanced Internet Block by IOBOND : A\n"
 					"ANC : Anoncoin : A\n"
@@ -100,6 +101,7 @@ main(int argc, char **argv)
 					"BTC : Bitcoin : 1\n"
 					"TEST : Bitcoin Testnet : m or n\n"
 					"BTCD : Bitcoin Dark : R\n"
+					"CANN : Cannabis Coin : C\n"
 					"CCC : Chococoin : 7\n"
 					"CCN : Cannacoin : C\n"
 					"CDN : Canadaecoin : C\n"
@@ -124,38 +126,48 @@ main(int argc, char **argv)
 					"FAIR : Faircoin2 : f\n"
 					"FLOZ : FLOZ : F\n"
 					"FTC : Feathercoin : 6 or 7\n"
+					"FFC : Fire Fly Coin : F\n"
 					"GAME : GameCredits : G\n"
 					"GAP : Gapcoin : G\n"
 					"GCR : Global Currency Reserve : G\n"
 					"GRC : GridcoinResearch : R or S\n"
 					"GRLC : Garlicoin : G\n"
 					"GRS : Groestlcoin : F\n"
+					"GCC : Guccione Coin : G\n"
 					"GUN : Guncoin : G or H\n"
 					"HAM : HamRadiocoin : 1\n"
 					"HBN : HoboNickels(BottleCaps) : E or F\n"
 					"HODL : HOdlcoin : H\n"
+					"HDLC : Heldcoin : H\n"
+					"IRL : Irishcoin : E\n"
 					"IXC : Ixcoin : x\n"
 					"JBS : Jumbucks : J\n"
 					"JIN : Jincoin : J\n"
+					"XJO : JouleCoin : J\n"
 					"LBRY : LBRY : b\n"
+					"LEA : LeaCoin : L\n"
 					"LEAF : Leafcoin : f\n"
 					"LTC : Litecoin : L\n"
+					"MBYT: Madbyte : M\n"
 					"MMC : Memorycoin : M\n"
 					"MONA : Monacoin : M\n"
 					"MUE : Monetary Unit : 7\n"
 					"MYRIAD : Myriadcoin : M\n"
 					"MZC : Mazacoin : M\n"
+					"NEET : NEETCOIN : N\n"
 					"NEOS : Neoscoin : S\n"
 					"NLG : Gulden : G\n"
-					"NEET : NEETCOIN : N\n"
 					"NMC : Namecoin : M or N\n"
 					"NVC : Novacoin : 4\n"
 					"NYAN : Nyancoin : K\n"
 					"OK : OK Cash : P\n"
 					"OMC : Omnicoin : o\n"
+					"PARTY : Partycoin : P\n"
+					"PENG : Penguin : p\n"
 					"PIGGY : Piggycoin : p\n"
 					"PINK : Pinkcoin : 2\n"
 					"PIVX : PIVX : D\n"
+					"DUO : Parallel Coin : a\n"
 					"PKB : Parkbyte : P\n"
 					"PND : Pandacoin : P\n"
 					"POT : Potcoin : P\n"
@@ -166,15 +178,20 @@ main(int argc, char **argv)
 					"RBY : Rubycoin : R\n"
 					"RDD : Reddcoin : R\n"
 					"RIC : Riecoin : R\n"
-					"ROI : ROIcoin : R\n"
+					"ROI : ROIcoin: R\n"
 					"SCA : Scamcoin : S\n"
 					"SDC : Shadowcoin : S\n"
 					"SKC : Skeincoin : S\n"
+					"SOON : Sooncoin : S\n"
 					"SPR : Spreadcoin : S\n"
 					"START : Startcoin : s\n"
 					"SXC : Sexcoin : R or S\n"
+					"TIT : Titcoin : 1\n"
 					"TPC : Templecoin : T\n"
+					"UDOWN : UDOWN coin : U\n"
 					"UIS : Unitus : U\n"
+					"UNIC : Unicoin : U\n"
+					"UNIT : Universal Currency : P\n"
 					"UNO : Unobtanium : u\n"
 					"VIA : Viacoin : V\n"
 					"VPN : Vpncoin : V\n"
@@ -194,7 +211,7 @@ main(int argc, char **argv)
 			else
 			if (strcmp(optarg, "PIVX")== 0) {
 				fprintf(stderr,
-					"Generating PIVX Address\n");
+					"Decrypting PIVX Address\n");
 					addrtype = 30;
 					privtype = 212;
 					break;
@@ -1000,7 +1017,143 @@ main(int argc, char **argv)
 					privtype_opt = 181;
 					break;
 			}
-			break;
+			                        else
+                        if (strcmp(optarg, "UNIC")== 0) {
+                            fprintf(stderr,
+                                        "Decrypting UNIC Address\n");
+                                        addrtype = 68;
+                                        privtype = 224; //script type is 30.
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "XJO")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting JouleCoin Address\n");
+                                        addrtype = 43;
+                                        privtype = 143;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "UNIT")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Universal Currency Address\n");
+                                        addrtype = 55;
+                                        privtype = 183;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "DUO")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Parallel Coin Address\n");
+                                        addrtype = 83;
+                                        privtype = 178;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "TIT")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Titcoin Address\n");
+                                        addrtype = 0;
+                                        privtype = 128;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "LEA")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting LeaCoin Address\n");
+                                        addrtype = 48;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "FFC")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Fire Fly Coin Address\n");
+                                        addrtype = 36;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "UDOWN")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting UDOWN Coin Address\n");
+                                        addrtype = 68;
+                                        privtype = 196;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "SOON")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Soon Coin Address\n");
+                                        addrtype = 63;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "ACOIN")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Acoin Address\n");
+                                        addrtype = 23;
+                                        privtype = 230;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "PARTY")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting PartyCoin Address\n");
+                                        addrtype = 55;
+                                        privtype = 183;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "PENG")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Penguin Coin Address\n");
+                                        addrtype = 117;
+                                        privtype = 245;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "IRL")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Irish Coin Address\n");
+                                        addrtype = 33;
+                                        privtype = 161;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "HDLC")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Held Coin Address\n");
+                                        addrtype = 40;
+                                        privtype = 153;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "GCC")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Guccione Coin Address\n");
+                                        addrtype = 38;
+                                        privtype = 166;
+                                        break;
+                        }
+			            else
+                        if (strcmp(optarg, "MBYT")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Madbyte Coin Address\n");
+                                        addrtype = 50;
+                                        privtype = 110;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "CANN")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Cannabis Coin Address\n");
+                                        addrtype = 28;
+                                        privtype = 156;
+                                        break;
+                        }
+            break;
 
 /*END ALTCOIN GENERATOR*/
 		case '8':
