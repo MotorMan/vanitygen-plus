@@ -212,8 +212,8 @@ main(int argc, char **argv)
 			if (strcmp(optarg, "PIVX")== 0) {
 				fprintf(stderr,
 					"Decrypting PIVX Address\n");
-					addrtype = 30;
-					privtype = 212;
+					addrtype_opt = 30;
+					privtype_opt = 212;
 					break;
 			}
 			else
@@ -1021,136 +1021,136 @@ main(int argc, char **argv)
                         if (strcmp(optarg, "UNIC")== 0) {
                             fprintf(stderr,
                                         "Decrypting UNIC Address\n");
-                                        addrtype = 68;
-                                        privtype = 224; //script type is 30.
+                                        addrtype_opt = 68;
+                                        privtype_opt = 224; //script type is 30.
                                         break;
                         }
                         else
                         if (strcmp(optarg, "XJO")== 0) {
                                 fprintf(stderr,
                                         "Decrypting JouleCoin Address\n");
-                                        addrtype = 43;
-                                        privtype = 143;
+                                        addrtype_opt = 43;
+                                        privtype_opt = 143;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "UNIT")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Universal Currency Address\n");
-                                        addrtype = 55;
-                                        privtype = 183;
+                                        addrtype_opt = 55;
+                                        privtype_opt = 183;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "DUO")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Parallel Coin Address\n");
-                                        addrtype = 83;
-                                        privtype = 178;
+                                        addrtype_opt = 83;
+                                        privtype_opt = 178;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "TIT")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Titcoin Address\n");
-                                        addrtype = 0;
-                                        privtype = 128;
+                                        addrtype_opt = 0;
+                                        privtype_opt = 128;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "LEA")== 0) {
                                 fprintf(stderr,
                                         "Decrypting LeaCoin Address\n");
-                                        addrtype = 48;
-                                        privtype = 224;
+                                        addrtype_opt = 48;
+                                        privtype_opt = 224;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "FFC")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Fire Fly Coin Address\n");
-                                        addrtype = 36;
-                                        privtype = 224;
+                                        addrtype_opt = 36;
+                                        privtype_opt = 224;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "UDOWN")== 0) {
                                 fprintf(stderr,
                                         "Decrypting UDOWN Coin Address\n");
-                                        addrtype = 68;
-                                        privtype = 196;
+                                        addrtype_opt = 68;
+                                        privtype_opt = 196;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "SOON")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Soon Coin Address\n");
-                                        addrtype = 63;
-                                        privtype = 224;
+                                        addrtype_opt = 63;
+                                        privtype_opt = 224;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "ACOIN")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Acoin Address\n");
-                                        addrtype = 23;
-                                        privtype = 230;
+                                        addrtype_opt = 23;
+                                        privtype_opt = 230;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "PARTY")== 0) {
                                 fprintf(stderr,
                                         "Decrypting PartyCoin Address\n");
-                                        addrtype = 55;
-                                        privtype = 183;
+                                        addrtype_opt = 55;
+                                        privtype_opt = 183;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "PENG")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Penguin Coin Address\n");
-                                        addrtype = 117;
-                                        privtype = 245;
+                                        addrtype_opt = 117;
+                                        privtype_opt = 245;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "IRL")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Irish Coin Address\n");
-                                        addrtype = 33;
-                                        privtype = 161;
+                                        addrtype_opt = 33;
+                                        privtype_opt = 161;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "HDLC")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Held Coin Address\n");
-                                        addrtype = 40;
-                                        privtype = 153;
+                                        addrtype_opt = 40;
+                                        privtype_opt = 153;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "GCC")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Guccione Coin Address\n");
-                                        addrtype = 38;
-                                        privtype = 166;
+                                        addrtype_opt = 38;
+                                        privtype_opt = 166;
                                         break;
                         }
 			            else
                         if (strcmp(optarg, "MBYT")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Madbyte Coin Address\n");
-                                        addrtype = 50;
-                                        privtype = 110;
+                                        addrtype_opt = 50;
+                                        privtype_opt = 110;
                                         break;
                         }
                         else
                         if (strcmp(optarg, "CANN")== 0) {
                                 fprintf(stderr,
                                         "Decrypting Cannabis Coin Address\n");
-                                        addrtype = 28;
-                                        privtype = 156;
+                                        addrtype_opt = 28;
+                                        privtype_opt = 156;
                                         break;
                         }
             break;
