@@ -176,6 +176,7 @@ main(int argc, char **argv)
 					"PTC : Pesetacoin : K\n"
 					"PTS : Protoshares : P\n"
 					"QTUM : Qtum : Q\n"
+                    "QTL : Quaatloo : Q\n"
 					"RBY : Rubycoin : R\n"
 					"RDD : Reddcoin : R\n"
 					"RIC : Riecoin : R\n"
@@ -1160,6 +1161,14 @@ main(int argc, char **argv)
                                         "Decrypting BottleCaps Coin Address\n");
                                         addrtype_opt = 34;
                                         privtype_opt = 162;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "QTL")== 0) {
+                                fprintf(stderr,
+                                        "Decrypting Quatloo Coin Address\n");
+                                        addrtype_opt = 58;
+                                        privtype_opt = 186;
                                         break;
                         }
             break;

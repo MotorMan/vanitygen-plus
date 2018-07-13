@@ -256,6 +256,7 @@ main(int argc, char **argv)
 					"PTC : Pesetacoin : K\n"
 					"PTS : Protoshares : P\n"
 					"QTUM : Qtum : Q\n"
+                    "QTL : Quaatloo : Q\n"
 					"RBY : Rubycoin : R\n"
 					"RDD : Reddcoin : R\n"
 					"RIC : Riecoin : R\n"
@@ -1242,6 +1243,14 @@ main(int argc, char **argv)
                                         "Generating BottleCaps Coin Address\n");
                                         addrtype = 34;
                                         privtype = 162;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "QTL")== 0) {
+                                fprintf(stderr,
+                                        "Generating Quatloo Coin Address\n");
+                                        addrtype = 58;
+                                        privtype = 186;
                                         break;
                         }
 			break;
