@@ -182,6 +182,7 @@ main(int argc, char **argv)
 					"TEST : Bitcoin Testnet : m or n\n"
 					"BTCD : Bitcoin Dark : R\n"
 					"CANN : Cannabis Coin : C\n"
+                    "CAP : BottleCaps Coin: E & F\n"
 					"CCC : Chococoin : 7\n"
 					"CCN : Cannacoin : C\n"
 					"CDN : Canadaecoin : C\n"
@@ -918,7 +919,7 @@ main(int argc, char **argv)
 				fprintf(stderr,
 					"Generating DGC Address\n");
 					addrtype = 30;
-					privtype = 158;
+					privtype = 128; //QT 5.0.1 is now 128, not 158
 					break;
 			}
 			else
@@ -1233,6 +1234,14 @@ main(int argc, char **argv)
                                         "Generating Cannabis Coin Address\n");
                                         addrtype = 28;
                                         privtype = 156;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "CAP")== 0) {
+                                fprintf(stderr,
+                                        "Generating BottleCaps Coin Address\n");
+                                        addrtype = 34;
+                                        privtype = 162;
                                         break;
                         }
 			break;
