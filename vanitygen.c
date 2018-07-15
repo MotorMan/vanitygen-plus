@@ -496,6 +496,7 @@ main(int argc, char **argv)
 					"DUO : Parallel Coin : a\n"
 					"PKB : Parkbyte : P\n"
 					"PND : Pandacoin : P\n"
+                    "POL : PolCoin : P\n"
 					"POT : Potcoin : P\n"
 					"PPC : Peercoin : P\n"
 					"PTC : Pesetacoin : K\n"

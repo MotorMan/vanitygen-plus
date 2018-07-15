@@ -251,6 +251,7 @@ main(int argc, char **argv)
 					"DUO : Parallel Coin : a\n"
 					"PKB : Parkbyte : P\n"
 					"PND : Pandacoin : P\n"
+                    "POL : PolCoin : P\n"
 					"POT : Potcoin : P\n"
 					"PPC : Peercoin : P\n"
 					"PTC : Pesetacoin : K\n"
@@ -1251,6 +1252,14 @@ main(int argc, char **argv)
                                         "Generating Quatloo Coin Address\n");
                                         addrtype = 58;
                                         privtype = 186;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "POL")== 0) {
+                                fprintf(stderr,
+                                        "Generating PolCoin Address\n");
+                                        addrtype = 20;
+                                        privtype = 128;
                                         break;
                         }
 			break;
