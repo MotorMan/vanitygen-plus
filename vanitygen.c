@@ -484,6 +484,7 @@ main(int argc, char **argv)
 					"NEOS : Neoscoin : S\n"
 					"NLG : Gulden : G\n"
 					"NMC : Namecoin : M or N\n"
+                    "NKC : NukeCoinz : 6 & 7\n"
 					"NVC : Novacoin : 4\n"
 					"NYAN : Nyancoin : K\n"
 					"OK : OK Cash : P\n"
@@ -1497,6 +1498,22 @@ main(int argc, char **argv)
                                         "Generating Quatloo Coin Address\n");
                                         addrtype = 58;
                                         privtype = 186;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "POL")== 0) {
+                                fprintf(stderr,
+                                        "Generating PolCoin Address\n");
+                                        addrtype = 20;
+                                        privtype = 128;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "NKC")== 0) {
+                                fprintf(stderr,
+                                        "Generating NukeCoinz Address\n");
+                                        addrtype = 14;
+                                        privtype = 128;
                                         break;
                         }
 			break;
