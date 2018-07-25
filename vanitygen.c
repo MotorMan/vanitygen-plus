@@ -420,6 +420,7 @@ main(int argc, char **argv)
 					"ARS : Arkstone : A\n"
 					"ATMOS : Atmos : N\n"
 					"AUR : Auroracoin : A\n"
+					"OLDAUR : Auroracoin Old Version: A\n"
 					"AXE : Axe : X\n"
 					"BLK : Blackcoin : B\n"
 					"BQC : BBQcoin : b\n"
@@ -450,6 +451,8 @@ main(int argc, char **argv)
 					"EMC : Emercoin : E\n"
 					"EXCL : Exclusivecoin : E\n"
 					"FAIR : Faircoin2 : f\n"
+                    "FLO : FlorinCoin : F\n"
+                    "FLOTEST : FlorinCoin TestNet : o\n"
 					"FLOZ : FLOZ : F\n"
 					"FTC : Feathercoin : 6 or 7\n"
 					"FFC : Fire Fly Coin : F\n"
@@ -470,6 +473,7 @@ main(int argc, char **argv)
 					"JBS : Jumbucks : J\n"
 					"JIN : Jincoin : J\n"
 					"XJO : JouleCoin : J\n"
+                    "KDC : KlondikeCoin : K\n"
 					"LBRY : LBRY : b\n"
 					"LEA : LeaCoin : L\n"
 					"LEAF : Leafcoin : f\n"
@@ -484,7 +488,7 @@ main(int argc, char **argv)
 					"NEOS : Neoscoin : S\n"
 					"NLG : Gulden : G\n"
 					"NMC : Namecoin : M or N\n"
-                    "NKC : NukeCoinz : 6 & 7\n"
+                    "NKC : NukeCoinz : 6c to 6z & 71 to 73\n"
 					"NVC : Novacoin : 4\n"
 					"NYAN : Nyancoin : K\n"
 					"OK : OK Cash : P\n"
@@ -517,6 +521,7 @@ main(int argc, char **argv)
 					"SXC : Sexcoin : R or S\n"
 					"TIT : Titcoin : 1\n"
 					"TPC : Templecoin : T\n"
+                    "TTY : TrinityCoin : D\n"
 					"UDOWN : UDOWN coin : U\n"
 					"UIS : Unitus : U\n"
 					"UNIC : Unicoin : U\n"
@@ -787,9 +792,9 @@ main(int argc, char **argv)
 					break;
 			}
 			else
-			if (strcmp(optarg, "AUR")== 0) {
+			if (strcmp(optarg, "OLDAUR")== 0) {
 				fprintf(stderr,
-					"Generating AUR Address\n");
+					"Generating Old AUR Address\n");
 					addrtype = 23;
 					privtype = 151;
 					break;
@@ -1516,6 +1521,54 @@ main(int argc, char **argv)
                                         privtype = 128;
                                         break;
                         }
+                        else
+                        if (strcmp(optarg, "FLO")== 0) {
+                                fprintf(stderr,
+                                        "Generating Florin Coin Address\n");
+                                        addrtype = 35;
+                                        privtype = 176;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "FLOTEST")== 0) {
+                                fprintf(stderr,
+                                        "Generating Florin Coin TestNet Address\n");
+                                        addrtype = 115;
+                                        privtype = 239;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "KDC")== 0) {
+                                fprintf(stderr,
+                                        "Generating Klondike Coin Address\n");
+                                        addrtype = 47;
+                                        privtype = 175;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "TTY")== 0) {
+                                fprintf(stderr,
+                                        "Generating Trinity Coin Address\n");
+                                        addrtype = 30;
+                                        privtype = 177;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "AUR")== 0) {
+                                fprintf(stderr,
+                                        "Generating Aurora Coin Address\n");
+                                        addrtype = 23;
+                                        privtype = 176;
+                                        break;
+                        }
+                        /*else
+                        if (strcmp(optarg, "NYAN")== 0) {
+                                fprintf(stderr,
+                                        "Generating Nyan Coin Address\n");
+                                        addrtype = 45;
+                                        privtype = 173;
+                                        break;
+                        } left here for easier next coin addition.*/
 			break;
 
 /*END ALTCOIN GENERATOR*/
