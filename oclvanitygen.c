@@ -177,8 +177,10 @@ main(int argc, char **argv)
 					"AUR : Auroracoin : A\n"
 					"OLDAUR : Auroracoin Old Version: A\n"
 					"AXE : Axe : X\n"
+                    "BCF : Bitcoin Fast : B\n"
 					"BLK : Blackcoin : B\n"
 					"BQC : BBQcoin : b\n"
+                    "BTB : BitBar Coin : B\n"
 					"BTC : Bitcoin : 1\n"
 					"TEST : Bitcoin Testnet : m or n\n"
 					"BTCD : Bitcoin Dark : R\n"
@@ -191,6 +193,7 @@ main(int argc, char **argv)
 					"CNC : Chinacoin : C\n"
 					"CNOTE : C-Note : C\n"
 					"CON : PayCon : P\n"
+                    "CORG : CorgiCoin : C\n"
 					"CRW : Crown : 1\n"
 					"DASH : Dash : X\n"
 					"DEEPONION : DeepOnion : D\n"
@@ -204,6 +207,7 @@ main(int argc, char **argv)
 					"DVC : Devcoin : 1\n"
 					"EFL : Electronic-Gulden-Foundation : L\n"
 					"EMC : Emercoin : E\n"
+                    "EMC2 : Einsteinium : E\n"
 					"EXCL : Exclusivecoin : E\n"
 					"FAIR : Faircoin2 : f\n"
                     "FLO : FlorinCoin : F\n"
@@ -229,10 +233,14 @@ main(int argc, char **argv)
 					"JIN : Jincoin : J\n"
 					"XJO : JouleCoin : J\n"
                     "KDC : KlondikeCoin : K\n"
+                    "KRONE : Krone Coin : K\n"
 					"LBRY : LBRY : b\n"
 					"LEA : LeaCoin : L\n"
 					"LEAF : Leafcoin : f\n"
+                    "LINX : LinxCoin : X\n"
+                    "LINDA: Linda Coin : L\n"
 					"LTC : Litecoin : L\n"
+                    "LTB : Litebar : L\n"
 					"MBYT: Madbyte : M\n"
 					"MMC : Memorycoin : M\n"
 					"MONA : Monacoin : M\n"
@@ -1316,14 +1324,86 @@ main(int argc, char **argv)
                                         privtype = 176;
                                         break;
                         }
-                        /*else
-                        if (strcmp(optarg, "NYAN")== 0) {
+                        else
+                        if (strcmp(optarg, "LTB")== 0) {
                                 fprintf(stderr,
-                                        "Generating Nyan Coin Address\n");
+                                        "Generating Litebar Coin Address\n");
+                                        addrtype = 48;
+                                        privtype = 176;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "BCF")== 0) {
+                                fprintf(stderr,
+                                        "Generating BitcoinFast Coin Address\n");
+                                        addrtype = 25;
+                                        privtype = 153;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "EMC2")== 0) {
+                                fprintf(stderr,
+                                        "Generating Einsteinium Coin Address\n");
+                                        addrtype = 33;
+                                        privtype = 176;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "CORG")== 0) {
+                                fprintf(stderr,
+                                        "Generating Corgi Coin Address\n");
+                                        addrtype = 28;
+                                        privtype = 156;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "DUO")== 0) {
+                                fprintf(stderr,
+                                        "Generating Parallel Coin Address\n");
+                                        addrtype = 83;
+                                        privtype = 178;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "ZET")== 0) {
+                                fprintf(stderr,
+                                        "Generating Zeta Coin Address\n");
+                                        addrtype = 80;
+                                        privtype = 224;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "BTB")== 0) {
+                                fprintf(stderr,
+                                        "Generating BitBar Coin Address\n");
+                                        addrtype = 25;
+                                        privtype = 153;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "KRONE")== 0) {
+                                fprintf(stderr,
+                                        "Generating KRONE Coin Address\n");
                                         addrtype = 45;
                                         privtype = 173;
                                         break;
-                        } left here for easier next coin addition.*/
+                        }
+                        else
+                        if (strcmp(optarg, "LINDA")== 0) {
+                                fprintf(stderr,
+                                        "Generating LINDA Coin Address\n");
+                                        addrtype = 48;
+                                        privtype = 153;
+                                        break;
+                        }
+                        else
+                        if (strcmp(optarg, "LINX")== 0) {
+                                fprintf(stderr,
+                                        "Generating LinX Coin Address\n");
+                                        addrtype = 75;
+                                        privtype = 203;
+                                        break;
+                        }
 			break;
 
 /*END ALTCOIN GENERATOR*/
